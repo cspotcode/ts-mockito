@@ -8,7 +8,7 @@ on:
     - cron:  '0 0 * * *'
 jobs:
   lint-build:
-    name: "Lint & Build"
+    name: "Test"
     runs-on: ubuntu-latest
     steps:
       # checkout code
