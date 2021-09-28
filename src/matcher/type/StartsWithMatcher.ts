@@ -1,11 +1,11 @@
 import { Matcher } from "./Matcher";
 
 export class StartsWithMatcher extends Matcher {
-    constructor(private expectedValue: any) {
+    constructor(private expectedValue: string) {
         super();
     }
 
-    public match(value: Object): boolean {
+    public match(value: string): boolean {
         return value && (typeof value === "string") && value.startsWith(this.expectedValue);
     }
 

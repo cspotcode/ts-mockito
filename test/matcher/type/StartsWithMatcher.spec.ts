@@ -3,7 +3,7 @@ import {startsWith} from "../../../src/ts-mockito";
 
 describe("StartsWithMatcher", () => {
     describe("checking if value starts with given value", () => {
-        const testObj: Matcher = startsWith("abc") as any;
+        const testObj: Matcher = startsWith("abc");
 
         describe("when given value starts with string", () => {
             it("returns true", () => {

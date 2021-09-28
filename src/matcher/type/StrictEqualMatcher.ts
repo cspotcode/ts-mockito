@@ -5,7 +5,7 @@ export class StrictEqualMatcher extends Matcher {
         super();
     }
 
-    public match(value: any): boolean {
+    public match<T>(value: T): boolean {
         return this.expectedValue === value;
     }
 

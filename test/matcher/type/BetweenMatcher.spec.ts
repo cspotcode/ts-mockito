@@ -3,7 +3,7 @@ import {between} from "../../../src/ts-mockito";
 
 describe("BetweenMatcher", () => {
     describe("checking if value matches given min and max", () => {
-        const testObj: Matcher = between(5, 10) as any;
+        const testObj: Matcher = between(5, 10);
 
         describe("when given value is lower than min", () => {
             it("returns false", () => {
@@ -61,7 +61,7 @@ describe("BetweenMatcher", () => {
             // when
             let error = null;
             try {
-                const testObj: Matcher = between(10, 9) as any;
+                const testObj: Matcher = between(10, 9);
             } catch (e) {
                 error = e;
             }

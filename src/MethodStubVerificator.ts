@@ -1,7 +1,7 @@
 import {MethodToStub} from "./MethodToStub";
 import {MethodCallToStringConverter} from "./utils/MethodCallToStringConverter";
 
-export class MethodStubVerificator<T> {
+export class MethodStubVerificator {
     private methodCallToStringConverter: MethodCallToStringConverter = new MethodCallToStringConverter();
 
     constructor(private methodToVerify: MethodToStub) {

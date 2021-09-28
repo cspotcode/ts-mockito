@@ -3,7 +3,7 @@ import {endsWith} from "../../../src/ts-mockito";
 
 describe("EndsWithMatcher", () => {
     describe("checking if value starts with given value", () => {
-        const testObj: Matcher = endsWith("abc") as any;
+        const testObj: Matcher = endsWith("abc");
 
         describe("when given value ends with string", () => {
             it("returns true", () => {

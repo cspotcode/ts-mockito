@@ -19,6 +19,7 @@ import {AnythingMatcher} from "./matcher/type/AnythingMatcher";
 import {BetweenMatcher} from "./matcher/type/BetweenMatcher";
 import {DeepEqualMatcher} from "./matcher/type/DeepEqualMatcher";
 import {EndsWithMatcher} from "./matcher/type/EndsWithMatcher";
+import {Matcher} from "./matcher/type/Matcher";
 import {MatchingStringMatcher} from "./matcher/type/MatchingStringMatcher";
 import {NotNullMatcher} from "./matcher/type/NotNullMatcher";
 import {ObjectContainingMatcher} from "./matcher/type/ObjectContainingMatcher";
@@ -40,7 +41,7 @@ export function mock<T>(clazz?: any): T {
     return new Mocker(clazz).getMock();
 }
 
-export function verify<T>(method: T): MethodStubVerificator<T> {
+export function verify<T>(method: T): MethodStubVerificator {
     return new MethodStubVerificator(method as any);
 }
 
@@ -83,56 +84,56 @@ export function resetCalls<T>(...mockedValues: T[]): void {
     mockedValues.forEach(mockedValue => (mockedValue as any).__tsmockitoMocker.resetCalls());
 }
 
-export function anyOfClass<T>(expectedClass: new (...args: any[]) => T): any {
-    return new AnyOfClassMatcher(expectedClass) as any;
+export function anyOfClass<T>(expectedClass: new (...args: any[]) => T): Matcher {
+    return new AnyOfClassMatcher(expectedClass);
 }
 
-export function anyFunction(): any {
-    return new AnyFunctionMatcher() as any;
+export function anyFunction(): Matcher {
+    return new AnyFunctionMatcher();
 }
 
-export function anyNumber(): number {
-    return new AnyNumberMatcher() as any;
+export function anyNumber(): Matcher {
+    return new AnyNumberMatcher();
 }
 
-export function anyString(): string {
-    return new AnyStringMatcher() as any;
+export function anyString(): Matcher {
+    return new AnyStringMatcher();
 }
 
 export function anything(): any {
-    return new AnythingMatcher() as any;
+    return new AnythingMatcher();
 }
 
-export function between(min: number, max: number): number {
-    return new BetweenMatcher(min, max) as any;
+export function between(min: number, max: number): Matcher {
+    return new BetweenMatcher(min, max);
 }
 
-export function deepEqual<T>(expectedValue: T): T {
-    return new DeepEqualMatcher<T>(expectedValue) as any;
+export function deepEqual<T>(expectedValue: T): DeepEqualMatcher<T> {
+    return new DeepEqualMatcher<T>(expectedValue);
 }
 
-export function notNull(): any {
-    return new NotNullMatcher() as any;
+export function notNull(): Matcher {
+    return new NotNullMatcher();
 }
 
-export function strictEqual<T>(expectedValue: T): T {
-    return new StrictEqualMatcher(expectedValue) as any;
+export function strictEqual<T>(expectedValue: T): Matcher {
+    return new StrictEqualMatcher(expectedValue);
 }
 
-export function match(expectedValue: RegExp | string): string {
-    return new MatchingStringMatcher(expectedValue) as any;
+export function match(expectedValue: RegExp | string): Matcher {
+    return new MatchingStringMatcher(expectedValue);
 }
 
-export function startsWith(expectedValue: string): string {
-    return new StartsWithMatcher(expectedValue) as any;
+export function startsWith(expectedValue: string): Matcher {
+    return new StartsWithMatcher(expectedValue);
 }
 
-export function endsWith(expectedValue: string): string {
-    return new EndsWithMatcher(expectedValue) as any;
+export function endsWith(expectedValue: string): Matcher {
+    return new EndsWithMatcher(expectedValue);
 }
 
-export function objectContaining(expectedValue: Object): any {
-    return new ObjectContainingMatcher(expectedValue) as any;
+export function objectContaining(expectedValue: Object): Matcher {
+    return new ObjectContainingMatcher(expectedValue);
 }
 
 // Export default object with all members (ember-browserify doesn't support named exports).
