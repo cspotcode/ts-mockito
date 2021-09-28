@@ -9,6 +9,7 @@ import {strictEqual} from "./ts-mockito";
 import {MockableFunctionsFinder} from "./utils/MockableFunctionsFinder";
 import {ObjectInspector} from "./utils/ObjectInspector";
 import {ObjectPropertyCodeRetriever} from "./utils/ObjectPropertyCodeRetriever";
+import { TODO } from "./utils/types";
 
 export class Mocker {
     public mock: any = {};
@@ -208,7 +209,7 @@ export class Mocker {
     }
 
     private createMethodToStub(key: string): () => any {
-        return (...args: any[]) => {
+        return (...args: Array<any>) => {
             if (args.length === 1 && args[0] === "__tsMockitoGetInfo") {
                 return {
                     key,

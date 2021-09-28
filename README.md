@@ -1,9 +1,11 @@
-# ts-mockito [![build badge](https://travis-ci.org/NagRock/ts-mockito.svg?branch=master)](https://travis-ci.org/NagRock/ts-mockito) [![codecov](https://codecov.io/gh/NagRock/ts-mockito/branch/master/graph/badge.svg)](https://codecov.io/gh/NagRock/ts-mockito)
+# @cspotcode/ts-mockito [![build badge](https://github.com/cspotcode/ts-mockito/actions/workflows/test.yml/badge.svg)](https://github.com/cspotcode/ts-mockito/actions?query=branch%3Amaster) [![codecov](https://codecov.io/gh/cspotcode/ts-mockito/branch/master/graph/badge.svg)](https://codecov.io/gh/cspotcode/ts-mockito)
+
+> This is a fork of https://github.com/NagRock/ts-mockito.  We hope to eventually re-merge and publish as ts-mockito.
 
 Mocking library for TypeScript inspired by http://mockito.org/
 
 ## 1.x to 2.x migration guide
-[1.x to 2.x migration guide](https://github.com/NagRock/ts-mockito/wiki/ts-mockito-1.x-to-2.x-migration-guide)
+[1.x to 2.x migration guide](https://github.com/cspotcode/ts-mockito/wiki/ts-mockito-1.x-to-2.x-migration-guide)
 
 ## Main features
 
@@ -29,7 +31,7 @@ Mocking library for TypeScript inspired by http://mockito.org/
 
 ## Installation
 
-`npm install ts-mockito --save-dev`
+`npm install @cspotcode/ts-mockito --save-dev`
 
 ## Usage
 
