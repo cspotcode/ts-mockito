@@ -8,7 +8,7 @@ describe("DeepEqualMatcher", () => {
             // given
             const firstValue = 3;
             const secondValue = 3;
-            const testObj: Matcher = new DeepEqualMatcher(firstValue);
+            const testObj: Matcher = new DeepEqualMatcher(firstValue) as any;
 
             // when
             const result = testObj.match(secondValue);
@@ -23,7 +23,7 @@ describe("DeepEqualMatcher", () => {
             // given
             const firstValue = "sampleString";
             const secondValue = "sampleString";
-            const testObj: Matcher = new DeepEqualMatcher(firstValue);
+            const testObj: Matcher = new DeepEqualMatcher(firstValue) as any;
 
             // when
             const result = testObj.match(secondValue);
@@ -38,7 +38,7 @@ describe("DeepEqualMatcher", () => {
             // given
             const firstValue = {a: 1, b: {c: 2}};
             const secondValue = {a: 1, b: {c: 2}};
-            const testObj: Matcher = new DeepEqualMatcher(firstValue);
+            const testObj: Matcher = new DeepEqualMatcher(firstValue) as any;
 
             // when
             const result = testObj.match(secondValue);
@@ -53,7 +53,7 @@ describe("DeepEqualMatcher", () => {
             // given
             const firstValue = {a: 1, b: {c: 2}};
             const secondValue = {a: 1, b: {c: 99999}};
-            const testObj: Matcher = new DeepEqualMatcher(firstValue);
+            const testObj: Matcher = new DeepEqualMatcher(firstValue) as any;
 
             // when
             const result = testObj.match(secondValue);
@@ -68,7 +68,7 @@ describe("DeepEqualMatcher", () => {
             // given
             const firstValue = {a: 1, b: anyString()};
             const secondValue = {a: 1, b: "2"};
-            const testObj: Matcher = new DeepEqualMatcher(firstValue);
+            const testObj: Matcher = new DeepEqualMatcher(firstValue) as any;
 
             // when
             const result = testObj.match(secondValue);
@@ -81,7 +81,7 @@ describe("DeepEqualMatcher", () => {
             // given
             const firstValue = {a: 1, b: anyString()};
             const secondValue = {a: 1, b: 2};
-            const testObj: Matcher = new DeepEqualMatcher(firstValue);
+            const testObj: Matcher = new DeepEqualMatcher(firstValue) as any;
 
             // when
             const result = testObj.match(secondValue);
