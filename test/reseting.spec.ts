@@ -91,14 +91,14 @@ describe("resetting mocked object", () => {
                 // given
                 foo.getBar();
                 foo.sumTwoNumbers(2, 3);
-                verify(mockedFoo.getBar()).calledBefore(mockedFoo.sumTwoNumbers(2, 3));
+                verify(mockedFoo.getBar()).calledBefore(mockedFoo.sumTwoNumbers(2, 3) as any);
 
                 // when
                 reset(mockedFoo);
 
                 // then
                 try {
-                    verify(mockedFoo.getBar()).calledBefore(mockedFoo.sumTwoNumbers(2, 3));
+                    verify(mockedFoo.getBar()).calledBefore(mockedFoo.sumTwoNumbers(2, 3) as any);
                     fail();
                 } catch (e) {
                     expect(e.message).toContain("to be called before");
@@ -114,14 +114,14 @@ describe("resetting mocked object", () => {
                 // given
                 foo.getBar();
                 foo.sumTwoNumbers(2, 3);
-                verify(mockedFoo.sumTwoNumbers(2, 3)).calledAfter(mockedFoo.getBar());
+                verify(mockedFoo.sumTwoNumbers(2, 3)).calledAfter(mockedFoo.getBar() as any);
 
                 // when
                 reset(mockedFoo);
 
                 // then
                 try {
-                    verify(mockedFoo.sumTwoNumbers(2, 3)).calledAfter(mockedFoo.getBar());
+                    verify(mockedFoo.sumTwoNumbers(2, 3)).calledAfter(mockedFoo.getBar() as any);
                     fail();
                 } catch (e) {
                     expect(e.message).toContain("to be called after");

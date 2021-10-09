@@ -162,7 +162,7 @@ describe("spying on a real object", () => {
                 foo.bar();
 
                 // then
-                expect(() => verify(spiedFoo.foo(1)).calledAfter(spiedFoo.bar())).toThrow();
+                expect(() => verify(spiedFoo.foo(1)).calledAfter(spiedFoo.bar() as any)).toThrow();
             });
 
             it("passes if expected foo() to have been before after bar()", () => {
@@ -175,7 +175,7 @@ describe("spying on a real object", () => {
                 foo.bar();
 
                 // then
-                expect(() => verify(spiedFoo.foo(1)).calledBefore(spiedFoo.bar())).not.toThrow();
+                expect(() => verify(spiedFoo.foo(1)).calledBefore(spiedFoo.bar() as any)).not.toThrow();
             });
         });
     });

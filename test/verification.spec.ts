@@ -340,7 +340,7 @@ cases.forEach(testData => {
                         foo.convertNumberToString(secondCallParam);
 
                         // then
-                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam));
+                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam) as any);
                     });
                 });
 
@@ -355,7 +355,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -379,7 +379,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -402,7 +402,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -425,7 +425,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -454,7 +454,7 @@ cases.forEach(testData => {
                         foo.convertNumberToString(firstCallParam);
 
                         // then
-                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam));
+                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam) as any);
                     });
                 });
 
@@ -469,7 +469,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -493,7 +493,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -517,7 +517,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -540,7 +540,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedFoo.convertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -569,7 +569,7 @@ cases.forEach(testData => {
                         bar.differentConvertNumberToString(secondCallParam);
 
                         // then
-                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam));
+                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                     });
                 });
 
@@ -584,7 +584,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -608,7 +608,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -631,7 +631,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -654,7 +654,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledBefore(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -683,7 +683,7 @@ cases.forEach(testData => {
                         foo.convertNumberToString(firstCallParam);
 
                         // then
-                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam));
+                        verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                     });
                 });
 
@@ -698,7 +698,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -722,7 +722,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -746,7 +746,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
@@ -769,7 +769,7 @@ cases.forEach(testData => {
                         // when
                         let error;
                         try {
-                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam));
+                            verify(mockedFoo.convertNumberToString(firstCallParam)).calledAfter(mockedBar.differentConvertNumberToString(secondCallParam) as any);
                         } catch (e) {
                             error = e;
                         }
