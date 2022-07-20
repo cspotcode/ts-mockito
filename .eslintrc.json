@@ -1,0 +1,173 @@
+{
+    "env": {
+        "browser": true,
+        "node": true
+    },
+    "extends": [
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
+    ],
+    "parser": "@typescript-eslint/parser",
+    "parserOptions": {
+        "project": "tsconfig.json",
+        "sourceType": "module"
+    },
+    "plugins": [
+        "eslint-plugin-jsdoc",
+        "eslint-plugin-prefer-arrow",
+        "@typescript-eslint"
+    ],
+    "rules": {
+        "@typescript-eslint/adjacent-overload-signatures": "error",
+        "@typescript-eslint/array-type": "off",
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/consistent-type-assertions": "error",
+        "@typescript-eslint/dot-notation": "off",
+        "@typescript-eslint/member-delimiter-style": [
+            "error",
+            {
+                "multiline": {
+                    "delimiter": "semi",
+                    "requireLast": true
+                },
+                "singleline": {
+                    "delimiter": "semi",
+                    "requireLast": false
+                }
+            }
+        ],
+        "@typescript-eslint/member-ordering": "off",
+        "@typescript-eslint/naming-convention": "off",
+        "@typescript-eslint/no-empty-function": "off",
+        "@typescript-eslint/no-empty-interface": "off",
+        "@typescript-eslint/no-explicit-any": "off",
+        "@typescript-eslint/no-misused-new": "error",
+        "@typescript-eslint/no-namespace": "error",
+        "@typescript-eslint/no-parameter-properties": "off",
+        "@typescript-eslint/no-shadow": [
+            "error",
+            {
+                "hoist": "all"
+            }
+        ],
+        "@typescript-eslint/no-unused-expressions": "error",
+        "@typescript-eslint/no-use-before-define": "off",
+        "@typescript-eslint/no-var-requires": "error",
+        "@typescript-eslint/prefer-for-of": "error",
+        "@typescript-eslint/prefer-function-type": "error",
+        "@typescript-eslint/prefer-namespace-keyword": "error",
+        "@typescript-eslint/semi": [
+            "error",
+            "always"
+        ],
+        "@typescript-eslint/triple-slash-reference": [
+            "error",
+            {
+                "path": "always",
+                "types": "prefer-import",
+                "lib": "always"
+            }
+        ],
+        "@typescript-eslint/unified-signatures": "error",
+        "arrow-parens": [
+            "error",
+            "as-needed"
+        ],
+        "complexity": "off",
+        "constructor-super": "error",
+        "dot-notation": "off",
+        "eqeqeq": [
+            "error",
+            "smart"
+        ],
+        "guard-for-in": "error",
+        "id-denylist": [
+            "error",
+            "any",
+            "Number",
+            "number",
+            "String",
+            "string",
+            "Boolean",
+            "boolean",
+            "Undefined",
+            "undefined"
+        ],
+        "id-match": "error",
+        "jsdoc/check-alignment": "error",
+        "jsdoc/check-indentation": "error",
+        "jsdoc/newline-after-description": "error",
+        "max-classes-per-file": "off",
+        "max-len": "off",
+        "new-parens": "error",
+        "no-bitwise": "off",
+        "no-caller": "error",
+        "no-cond-assign": "error",
+        "no-console": [
+            "error",
+            {
+                "allow": [
+                    "warn",
+                    "dir",
+                    "time",
+                    "timeEnd",
+                    "timeLog",
+                    "trace",
+                    "assert",
+                    "clear",
+                    "count",
+                    "countReset",
+                    "group",
+                    "groupEnd",
+                    "table",
+                    "debug",
+                    "info",
+                    "dirxml",
+                    "error",
+                    "groupCollapsed",
+                    "Console",
+                    "profile",
+                    "profileEnd",
+                    "timeStamp",
+                    "context"
+                ]
+            }
+        ],
+        "no-debugger": "error",
+        "no-empty": "off",
+        "no-empty-function": "off",
+        "no-eval": "error",
+        "no-fallthrough": "off",
+        "no-invalid-this": "off",
+        "no-new-wrappers": "error",
+        "no-shadow": "error",
+        "no-throw-literal": "error",
+        "no-trailing-spaces": "error",
+        "no-undef-init": "error",
+        "no-unsafe-finally": "error",
+        "no-unused-expressions": "error",
+        "no-unused-labels": "error",
+        "no-use-before-define": "off",
+        "no-var": "error",
+        "object-shorthand": "error",
+        "one-var": [
+            "error",
+            "never"
+        ],
+        "prefer-const": "error",
+        "prefer-template": "error",
+        "radix": "error",
+        "semi": "error",
+        "spaced-comment": [
+            "error",
+            "always",
+            {
+                "markers": [
+                    "/"
+                ]
+            }
+        ],
+        "use-isnan": "error",
+        "valid-typeof": "off"
+    }
+}

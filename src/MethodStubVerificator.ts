@@ -1,4 +1,5 @@
 import {MethodToStub} from "./MethodToStub";
+import {Mocker} from "./Mock";
 import {MethodCallToStringConverter} from "./utils/MethodCallToStringConverter";
 
 export class MethodStubVerificator<T> {
@@ -54,7 +55,7 @@ ${this.actualCalls()}`);
         }
     }
 
-    public calledBefore(method: any): void {
+    public calledBefore(method: MethodToStub): void {
         const firstMethodAction = this.methodToVerify.mocker.getFirstMatchingAction(this.methodToVerify.name, this.methodToVerify.matchers);
         const secondMethodAction = method.mocker.getFirstMatchingAction(method.name, method.matchers);
         const mainMethodToVerifyAsString = this.methodCallToStringConverter.convert(this.methodToVerify);
@@ -74,7 +75,7 @@ ${this.actualCalls()}`);
         }
     }
 
-    public calledAfter(method: any): void {
+    public calledAfter(method: MethodToStub): void {
         const firstMethodAction = this.methodToVerify.mocker.getFirstMatchingAction(this.methodToVerify.name, this.methodToVerify.matchers);
         const secondMethodAction = method.mocker.getFirstMatchingAction(method.name, method.matchers);
         const mainMethodToVerifyAsString = this.methodCallToStringConverter.convert(this.methodToVerify);
