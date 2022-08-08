@@ -2,8 +2,8 @@
   "name": "@typestrong/ts-mockito",
   "version": "2.6.3",
   "description": "Mocking library for TypeScript",
-  "main": "lib/ts-mockito.js",
-  "typings": "lib/ts-mockito",
+  "main": "ts-mockito.js",
+  "typings": "ts-mockito",
   "scripts": {
     "compile": "yarn test:compile-check && yarn rimraf 'lib/*' && ./node_modules/.bin/tsc -p ./src",
     "test": "npm run test:jest && npm run test:karma",
