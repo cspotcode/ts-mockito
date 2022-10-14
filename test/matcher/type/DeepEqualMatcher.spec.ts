@@ -100,7 +100,7 @@ describe("deepEqual", () => {
         }
         const foo = mock(Foo);
         instance(foo).add("1", 2, {a: "sampleValue"});
-        verify(foo.add(deepEqual("1"), deepEqual(2), deepEqual({a: "sampleValue"}))).once();
+        verify(foo.add(deepEqual("1") as any, deepEqual(2) as any, deepEqual({a: "sampleValue"}) as any)).once();
       });
   });
 });
