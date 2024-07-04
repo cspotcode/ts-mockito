@@ -1,5 +1,6 @@
 import * as _ from "lodash";
 
+
 export class ObjectInspector {
     public getObjectPrototypes(prototype: any): any[] {
         const prototypes: any[] = [];

@@ -1,17 +1,32 @@
 export class ObjectPropertyCodeRetriever {
-    public get(object: any, propertyName: string): string {
-        const descriptor = Object.getOwnPropertyDescriptor(object, propertyName);
-        if (!descriptor) {
-            // property is defined in prototype but has no descriptor (it comes from abstract class and was not override)
-            return "";
+    public getObject(object: any) {
+        const props = Object.getOwnPropertyNames(object);
+        return `class Prototype {
+            ${props.map(prop => {
+            let result = '';
+            const descriptor = Object.getOwnPropertyDescriptor(object, prop);
+            if (descriptor.get) {
+                result += `
+                    ${descriptor.get.toString()}
+                    `;
+            }
+            if (descriptor.set) {
+                result += `
+                    ${descriptor.set.toString()}
+                    `;
+            }
+            if (!descriptor.get && !descriptor.set && typeof object[prop] === 'function') {
+                const propName = prop === 'constructor' ? 'mock_constructor' : prop;
+                result += `
+                    ${propName} = ${String(object[prop])}
+                `;
+            }
+
+            return result;
+        }).join(`
+        `)}
         }
-        const accessorsCodes = [];
-        if (descriptor.get) {
-            accessorsCodes.push(descriptor.get.toString());
-        }
-        if (descriptor.set) {
-            accessorsCodes.push(descriptor.set.toString());
-        }
-        return accessorsCodes.join(" ") || String(object[propertyName]);
+        `;
     }
+
 }

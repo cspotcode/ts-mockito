@@ -188,12 +188,11 @@ export class Mocker {
 
     private processFunctionsCode(object: any): void {
         this.objectInspector.getObjectPrototypes(object).forEach((obj: any) => {
-            this.objectInspector.getObjectOwnPropertyNames(obj).forEach((propertyName: string) => {
-                const functionNames = this.mockableFunctionsFinder.find(this.objectPropertyCodeRetriever.get(obj, propertyName));
-                functionNames.forEach((functionName: string) => {
-                    this.createMethodStub(functionName);
-                    this.createInstanceActionListener(functionName, this.clazz.prototype);
-                });
+            const fullClass = this.objectPropertyCodeRetriever.getObject(obj);
+            const functionNames = this.mockableFunctionsFinder.find(fullClass);
+            functionNames.forEach((functionName: string) => {
+                this.createMethodStub(functionName);
+                this.createInstanceActionListener(functionName, this.clazz.prototype);
             });
         });
     }
