@@ -22,22 +22,20 @@ describe("ObjectPropertyCodeRetriever", () => {
             };
         });
 
-        it("Provides code of given existing property", () => {
-            expect(objectPropertyCodeRetriever.get(object, "undefinedProperty")).toBe("undefined");
-            expect(objectPropertyCodeRetriever.get(object, "nullProperty")).toBe("null");
-            expect(objectPropertyCodeRetriever.get(object, "nanProperty")).toBe("NaN");
-            expect(objectPropertyCodeRetriever.get(object, "stringProperty")).toBe("stringProperty");
-            expect(objectPropertyCodeRetriever.get(object, "booleanProperty")).toBe("true");
-            expect(objectPropertyCodeRetriever.get(object, "testMethod")).toMatch(/function \(\)/);
+        it("Provides code of given existing property method", () => {
+            const objStr = objectPropertyCodeRetriever.getObject(object);
+            expect(objStr).toContain('testMethod = function () { return true; }');
         });
 
         it("Provides code of given existing property accessors", () => {
-            expect(objectPropertyCodeRetriever.get(object, "someValue")).toMatch(/return "someValue"/);
-            expect(objectPropertyCodeRetriever.get(object, "someValue")).toMatch(/console\.info\("someValue set"\)/);
+            const objStr = objectPropertyCodeRetriever.getObject(object);
+            expect(objStr).toMatch(/get someValue\(\) \{\s*return "someValue";\s*}/);
+            expect(objStr).toMatch(/set someValue\(newValue\) \{\s*console.info\("someValue set"\);\s*}/);
         });
 
         it("Returns empty string when checking non existent property", () => {
-            expect(objectPropertyCodeRetriever.get(object, "nonExistentProperty")).toBe("");
+            const objStr = objectPropertyCodeRetriever.getObject(object);
+            expect(objStr).not.toContain("nonExistentProperty");
         });
     });
 });

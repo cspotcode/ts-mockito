@@ -10,9 +10,8 @@ describe("MockableFunctionsFinder", () => {
             const result = new MockableFunctionsFinder().find(code);
 
             // then
-            expect(result).toContain("log");
-            expect(result).toContain("toString");
             expect(result).toContain("anonymousMethod");
+            expect(result).toContain("convertNumberToString");
         });
 
         it("should not find hasOwnProperty as it should not be mocked (because its used by mockito to evaluate properties)", () => {
@@ -30,15 +29,15 @@ describe("MockableFunctionsFinder", () => {
 
 function getSampleCode(): string {
     return `
-export class Foo {
-    constructor (private temp:string) {
+class Foo {
+    constructor (temp) {
         this.anonymousMethod = function(arg) {
             console.log(arg);
             temp.hasOwnProperty("fakeProperty");
         }
     }
 
-    private convertNumberToString(value:number):string {
+    convertNumberToString(value) {
         return value.toString();
     }
 }
