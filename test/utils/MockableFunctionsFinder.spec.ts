@@ -100,5 +100,5 @@ class Test extends InheritedTest {
 }
 
 Test;
-`)
+`);
 }
