@@ -20,7 +20,7 @@ export class ObjectPropertyCodeRetriever {
                 const propName = prop === 'constructor' ? 'mock_constructor' : '';
                 const fnStr = String(object[prop]);
                 result += `
-                    ${propName ? propName + '=' : ''}${fnStr}
+                    ${propName ? `${propName}=` : ''}${fnStr}
                 `;
             }
 
