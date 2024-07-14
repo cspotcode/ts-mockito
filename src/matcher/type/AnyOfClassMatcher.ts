@@ -1,6 +1,6 @@
 import {Matcher} from "./Matcher";
 
-export class AnyOfClassMatcher<T> extends Matcher {
+export class AnyOfClassMatcher<T> extends Matcher<T> {
     constructor(private expectedClass: new (...args: any[]) => T) {
         super();
         if (expectedClass === null) {
@@ -8,7 +8,7 @@ export class AnyOfClassMatcher<T> extends Matcher {
         }
     }
 
-    public match(value: any): boolean {
+    public match(value: T): boolean {
         return value instanceof this.expectedClass;
     }
 

@@ -1,11 +1,11 @@
 import {Matcher} from "./Matcher";
 
-export class StrictEqualMatcher extends Matcher {
+export class StrictEqualMatcher<T> extends Matcher<T> {
     constructor(private expectedValue: any) {
         super();
     }
 
-    public match(value: any): boolean {
+    public match(value: T): boolean {
         return this.expectedValue === value;
     }
 

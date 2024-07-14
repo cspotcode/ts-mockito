@@ -1,8 +1,9 @@
 import {instance, mock, when} from "../src/ts-mockito";
 import {Bar} from "./utils/Bar";
+import {Mocked} from "../src/utils/types";
 
 describe("mocking", () => {
-    let mockedFoo: FooWithGetterAndSetter;
+    let mockedFoo: Mocked<FooWithGetterAndSetter>;
     let foo: FooWithGetterAndSetter;
 
     describe("mocking object with getters and setters", () => {

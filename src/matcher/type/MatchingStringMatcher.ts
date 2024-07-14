@@ -1,12 +1,12 @@
 import {Matcher} from "./Matcher";
 
-export class MatchingStringMatcher extends Matcher {
-    constructor(private expectedValue: any) {
+export class MatchingStringMatcher extends Matcher<string> {
+    constructor(private expectedValue: RegExp | string) {
         super();
     }
 
-    public match(value: any): boolean {
-        return value.match(this.expectedValue);
+    public match(value: string): boolean {
+        return Boolean(value.match(this.expectedValue));
     }
 
     public toString(): string {

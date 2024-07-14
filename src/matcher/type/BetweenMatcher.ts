@@ -1,6 +1,6 @@
 import {Matcher} from "./Matcher";
 
-export class BetweenMatcher extends Matcher {
+export class BetweenMatcher extends Matcher<number> {
     constructor(private min: number, private max: number) {
         super();
 
@@ -9,7 +9,7 @@ export class BetweenMatcher extends Matcher {
         }
     }
 
-    public match(value: any): boolean {
+    public match(value: number): boolean {
         return value >= this.min && value <= this.max;
     }
 

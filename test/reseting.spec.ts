@@ -1,9 +1,10 @@
 import { Mocker } from "../src/Mock";
 import {anything, instance, mock, reset, verify, when} from "../src/ts-mockito";
 import {Foo} from "./utils/Foo";
+import {Mocked} from "../src/utils/types";
 
 describe("resetting mocked object", () => {
-    let mockedFoo: Foo;
+    let mockedFoo: Mocked<Foo>;
     let foo: Foo;
 
     beforeEach(() => {
