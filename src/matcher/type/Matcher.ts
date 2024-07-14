@@ -1,5 +1,5 @@
-export class Matcher {
-    public match(value: any): boolean {
+export class Matcher<T = unknown> {
+    public match(value: T): boolean {
         return false;
     }
 

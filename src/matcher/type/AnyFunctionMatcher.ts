@@ -1,12 +1,12 @@
 import * as _ from "lodash";
 import {Matcher} from "./Matcher";
 
-export class AnyFunctionMatcher extends Matcher {
+export class AnyFunctionMatcher<T extends Function> extends Matcher<T> {
     constructor() {
         super();
     }
 
-    public match(value: any): boolean {
+    public match(value: T): boolean {
         return _.isFunction(value);
     }
 

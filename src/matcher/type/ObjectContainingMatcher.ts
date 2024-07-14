@@ -1,7 +1,7 @@
 import * as _ from "lodash";
 import {Matcher} from "./Matcher";
 
-export class ObjectContainingMatcher extends Matcher {
+export class ObjectContainingMatcher extends Matcher<Object> {
     constructor(private expectedValue: any) {
         super();
     }

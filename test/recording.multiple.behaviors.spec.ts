@@ -1,8 +1,9 @@
 import {instance, mock, when} from "../src/ts-mockito";
 import {Foo} from "./utils/Foo";
+import {Mocked} from "../src/utils/types";
 
 describe("recording multiple behaviors", () => {
-    let mockedFoo: Foo;
+    let mockedFoo: Mocked<Foo>;
     let foo: Foo;
 
     beforeEach(() => {
