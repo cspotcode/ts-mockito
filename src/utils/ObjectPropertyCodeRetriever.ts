@@ -1,7 +1,8 @@
+
 export class ObjectPropertyCodeRetriever {
-    public getObject(object: any) {
+    public static getObject(object: any) {
         const props = Object.getOwnPropertyNames(object);
-        return `class Prototype {
+        return `class ${object.constructor.name} {
             ${props.map(prop => {
             let result = '';
             const descriptor = Object.getOwnPropertyDescriptor(object, prop);
@@ -16,9 +17,10 @@ export class ObjectPropertyCodeRetriever {
                     `;
             }
             if (!descriptor.get && !descriptor.set && typeof object[prop] === 'function') {
-                const propName = prop === 'constructor' ? 'mock_constructor' : prop;
+                const propName = prop === 'constructor' ? 'mock_constructor' : '';
+                const fnStr = String(object[prop]);
                 result += `
-                    ${propName} = ${String(object[prop])}
+                    ${propName ? propName + '=' : ''}${fnStr}
                 `;
             }
 
