@@ -1,5 +1,8 @@
 import {parse} from "@babel/parser";
 import * as _babel_types from "@babel/types";
+import {ObjectInspector} from "./ObjectInspector";
+import {ObjectPropertyCodeRetriever} from "./ObjectPropertyCodeRetriever";
+import {uniq} from "lodash";
 
 type FunctionNode = |
     _babel_types.ObjectMethod |
@@ -38,8 +41,8 @@ function getAssignmentName(node: _babel_types.LVal) {
 function handleClassProp(node: _babel_types.ClassProperty): string {
     if (node.value.type !== 'ArrowFunctionExpression' && node.value.type !== 'FunctionExpression') return null;
 
-    if('name' in node.key) return node.key.name;
-    if('value' in node.key) return node.key.value.toString();
+    if ('name' in node.key) return node.key.name;
+    if ('value' in node.key) return node.key.value.toString();
     return null;
 }
 
@@ -84,7 +87,7 @@ function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) 
         }
 
         if (node.type === "ClassProperty") {
-            names = [handleClassProp(node), ...extractFunctionNames([node.value]),  ...names];
+            names = [handleClassProp(node), ...extractFunctionNames([node.value]), ...names];
         }
     });
 
@@ -104,14 +107,20 @@ function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) 
 export class MockableFunctionsFinder {
     private excludedFunctionNames = new Set(["hasOwnProperty", "function"]);
 
-    public find(code: string): string[] {
-        const ast = parse(code);
-        const names = extractFunctionNames(ast.program.body);
-        return names
+    public find(clazz: any): string[] {
+        const codes = this.getClassCodeAsStringWithInheritance(clazz);
+        const names = codes.map(code => parse(code)).flatMap(ast => extractFunctionNames(ast.program.body));
+        return uniq(names)
             .filter((functionName: string) => this.isMockable(functionName));
     }
 
-    private isMockable(name: string): boolean {
+    private isMockable(name: string | null | undefined): boolean {
+        if (!name) return false;
         return !this.excludedFunctionNames.has(name);
+    }
+
+    private getClassCodeAsStringWithInheritance(clazz: any) {
+        const classCode: string = typeof clazz.toString !== "undefined" ? clazz.toString() : "";
+        return [classCode, ...ObjectInspector.getObjectPrototypes(clazz.prototype).map(ObjectPropertyCodeRetriever.getObject)];
     }
 }
