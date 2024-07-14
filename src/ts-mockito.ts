@@ -82,48 +82,48 @@ export function resetCalls<T>(...mockedValues: Mocked<T>[]): void {
     mockedValues.forEach(mockedValue => (mockedValue as any).__tsmockitoMocker.resetCalls());
 }
 
-export function anyOfClass<T>(expectedClass: new (...args: any[]) => T): any {
-    return new AnyOfClassMatcher(expectedClass) as any;
+export function anyOfClass<T>(expectedClass: new (...args: any[]) => T) {
+    return new AnyOfClassMatcher<T>(expectedClass);
 }
 
-export function anyFunction(): any {
-    return new AnyFunctionMatcher() as any;
+export function anyFunction() {
+    return new AnyFunctionMatcher();
 }
 
-export function anyNumber(): any {
-    return new AnyNumberMatcher() as any;
+export function anyNumber() {
+    return new AnyNumberMatcher();
 }
 
-export function anyString(): any {
-    return new AnyStringMatcher() as any;
+export function anyString() {
+    return new AnyStringMatcher();
 }
 
-export function anything(): any {
-    return new AnythingMatcher() as any;
+export function anything() {
+    return new AnythingMatcher();
 }
 
-export function between(min: number, max: number): any {
-    return new BetweenMatcher(min, max) as any;
+export function between(min: number, max: number) {
+    return new BetweenMatcher(min, max) ;
 }
 
-export function deepEqual<T>(expectedValue: T): T {
-    return new DeepEqualMatcher<T>(expectedValue) as any;
+export function deepEqual<T>(expectedValue: T) {
+    return new DeepEqualMatcher<T>(expectedValue);
 }
 
-export function notNull(): any {
-    return new NotNullMatcher() as any;
+export function notNull() {
+    return new NotNullMatcher();
 }
 
-export function strictEqual(expectedValue: any): any {
-    return new StrictEqualMatcher(expectedValue) as any;
+export function strictEqual<T>(expectedValue: T) {
+    return new StrictEqualMatcher<T>(expectedValue);
 }
 
-export function match(expectedValue: RegExp | string): any {
-    return new MatchingStringMatcher(expectedValue) as any;
+export function match(expectedValue: RegExp | string) {
+    return new MatchingStringMatcher(expectedValue);
 }
 
-export function objectContaining<T extends Object>(expectedValue: T): any {
-    return new ObjectContainingMatcher(expectedValue) as any;
+export function objectContaining<T extends Object>(expectedValue: T) {
+    return new ObjectContainingMatcher<T>(expectedValue);
 }
 
 // Export default object with all members (ember-browserify doesn't support named exports).
