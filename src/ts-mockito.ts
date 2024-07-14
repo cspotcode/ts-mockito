@@ -38,8 +38,8 @@ export function mock<T>(clazz?: any): T {
     return new Mocker(clazz).getMock();
 }
 
-export function verify<T>(method: T): MethodStubVerificator<T> {
-    return new MethodStubVerificator(method as any);
+export function verify<T>(method: T, errorMessage?:string): MethodStubVerificator<T> {
+    return new MethodStubVerificator(method as any, errorMessage);
 }
 
 export function when<T>(method: Promise<T>): MethodStubSetter<Promise<T>, T, Error>;
