@@ -6,6 +6,7 @@
     "target": "es5",
     "removeComments": true,
     "sourceMap": true,
+    "strictNullChecks": true,
     "declaration": true,
     "lib": [
       "es5",

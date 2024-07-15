@@ -128,7 +128,7 @@ describe("deepEqual", () => {
     describe("using in verify statements", () => {
         it("can be used for equality", () => {
             class Foo {
-                public add = (str: string, num: number, obj: {a: string}): number => null;
+                public add = (str: string, num: number, obj: {a: string}): number | null => null;
             }
             const foo = mock(Foo);
             instance(foo).add("1", 2, {a: "sampleValue"});
@@ -138,7 +138,7 @@ describe("deepEqual", () => {
         describe('when given circular dependency', () => {
           type Bar = { bar?: Bar; };
           class Foo {
-            public something = (bar: Bar): number => null;
+            public something = (bar: Bar): number | null => null;
           }
 
           it('should reject gracefully', async () => {

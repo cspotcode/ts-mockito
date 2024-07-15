@@ -18,7 +18,7 @@ export class Spy extends Mocker {
     public reset(): void {
         _.forEach(this.realMethods, (method, key) => {
             if (method.instance) {
-                Object.defineProperty(this.instance, key, method.descriptor);
+                Object.defineProperty(this.instance, key, method.descriptor ?? {});
             } else {
                 delete this.instance[key];
             }
@@ -31,7 +31,7 @@ export class Spy extends Mocker {
         const realMethod = this.realMethods[key];
 
         if (realMethod) {
-            const method = realMethod.descriptor.get || realMethod.descriptor.value;
+            const method = realMethod.descriptor?.get || realMethod.descriptor?.value;
             return new CallThroughMethodStub(this.instance, method);
         }
 

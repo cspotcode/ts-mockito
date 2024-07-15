@@ -6,17 +6,17 @@ export class ObjectPropertyCodeRetriever {
             ${props.map(prop => {
             let result = '';
             const descriptor = Object.getOwnPropertyDescriptor(object, prop);
-            if (descriptor.get) {
+            if (descriptor?.get) {
                 result += `
-                    ${descriptor.get.toString()}
+                    ${descriptor?.get.toString()}
                     `;
             }
-            if (descriptor.set) {
+            if (descriptor?.set) {
                 result += `
-                    ${descriptor.set.toString()}
+                    ${descriptor?.set.toString()}
                     `;
             }
-            if (!descriptor.get && !descriptor.set && typeof object[prop] === 'function') {
+            if (!descriptor?.get && !descriptor?.set && typeof object[prop] === 'function') {
                 const propName = prop === 'constructor' ? 'mock_constructor' : '';
                 const fnStr = String(object[prop]);
                 result += `

@@ -125,11 +125,11 @@ export class Mocker {
                     return;
                 }
                 const descriptor = Object.getOwnPropertyDescriptor(obj, name);
-                if (descriptor.get) {
+                if (descriptor?.get) {
                     this.createPropertyStub(name);
                     this.createInstancePropertyDescriptorListener(name, descriptor, obj);
                     this.createInstanceActionListener(name, obj);
-                } else if (typeof descriptor.value === "function") {
+                } else if (typeof descriptor?.value === "function") {
                     this.createMethodStub(name);
                     this.createInstanceActionListener(name, obj);
                 } else {
@@ -164,8 +164,8 @@ export class Mocker {
             const action: MethodAction = new MethodAction(key, args);
             this.methodActions.push(action);
             const methodStub = this.getMethodStub(key, args);
-            methodStub.execute(args);
-            return methodStub.getValue();
+            methodStub?.execute(args);
+            return methodStub?.getValue();
         };
     }
 
@@ -225,7 +225,7 @@ export class Mocker {
         };
     }
 
-    private getMethodStub(key: string, args: any[]): MethodStub {
+    private getMethodStub(key: string, args: any[]): MethodStub | null {
         const methodStub: MethodStubCollection = this.methodStubCollections[key];
         if (methodStub && methodStub.hasMatchingInAnyGroup(args)) {
             const groupIndex = methodStub.getLastMatchingGroupIndex(args);

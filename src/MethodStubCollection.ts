@@ -13,7 +13,7 @@ export class MethodStubCollection {
         return matchingGroup ? matchingGroup.getGroupIndex() : -1;
     }
 
-    public getFirstMatchingFromGroupAndRemoveIfNotLast(groupIndex: number, args: any[]): MethodStub {
+    public getFirstMatchingFromGroupAndRemoveIfNotLast(groupIndex: number, args: any[]): MethodStub | null {
         const result = this.getFirstMatchingFromGroup(groupIndex, args);
         this.removeIfNotLast(groupIndex, args);
         return result;
@@ -30,8 +30,8 @@ export class MethodStubCollection {
         }
     }
 
-    private getFirstMatchingFromGroup(groupIndex: number, args: any[]): MethodStub {
-        return this.items.find((item: MethodStub) => item.getGroupIndex() === groupIndex && item.isApplicable(args));
+    private getFirstMatchingFromGroup(groupIndex: number, args: any[]): MethodStub | null {
+        return this.items.find((item: MethodStub) => item.getGroupIndex() === groupIndex && item.isApplicable(args)) ?? null;
     }
 
     private getFirstMatchingIndexFromGroup(groupIndex: number, args: any[]): number {
