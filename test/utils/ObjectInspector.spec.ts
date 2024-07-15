@@ -8,7 +8,7 @@ describe("ObjectInspector", () => {
             let methodNames: string[] = [];
 
             // when
-            new ObjectInspector().getObjectPrototypes(ChildClass.prototype).forEach((obj: any) => {
+            ObjectInspector.getObjectPrototypes(ChildClass.prototype).forEach((obj: any) => {
                 methodNames = _.union(methodNames, Object.getOwnPropertyNames(obj));
             });
 
@@ -23,7 +23,7 @@ describe("ObjectInspector", () => {
             let called = false;
 
             // when
-            new ObjectInspector().getObjectPrototypes(null).forEach((obj: any) => {
+            ObjectInspector.getObjectPrototypes(null).forEach((obj: any) => {
                 called = true;
             });
 
@@ -38,7 +38,7 @@ describe("ObjectInspector", () => {
             let propertyNames: string[] = [];
 
             // when
-            new ObjectInspector().getObjectOwnPropertyNames(ParentClass.prototype).forEach((property: any) => {
+            ObjectInspector.getObjectOwnPropertyNames(ParentClass.prototype).forEach((property: any) => {
                 propertyNames = _.union(propertyNames, [property]);
             });
 
@@ -47,12 +47,12 @@ describe("ObjectInspector", () => {
             expect(propertyNames).toContain("sampleBoolean");
         });
 
-        it("provides an empty array for non object passed (doesn't throw en excpetion)", () => {
+        it("provides an empty array for non object passed (doesn't throw en exception)", () => {
             // given
             let called = false;
 
             // when
-            new ObjectInspector().getObjectOwnPropertyNames(null).forEach((obj: any) => {
+            ObjectInspector.getObjectOwnPropertyNames(null).forEach((obj: any) => {
                 called = true;
             });
 
