@@ -82,7 +82,7 @@ function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) 
 
         if (node.type === "ExpressionStatement") {
             const name = handleExpression(node.expression);
-            if (name) names.push(name)
+            if (name) names.push(name);
         }
 
         if (node.type === "VariableDeclaration") {
