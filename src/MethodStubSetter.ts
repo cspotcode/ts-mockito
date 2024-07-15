@@ -35,7 +35,7 @@ export class MethodStubSetter<T, ResolveType = void, RejectType = Error> {
         return this;
     }
 
-    public thenResolve(...rest: ResolveType[]): this {
+    public thenResolve(...rest: (ResolveType | undefined)[]): this {
         this.convertToPropertyIfIsNotAFunction();
         // Resolves undefined if no resolve values are given.
         if (rest.length === 0) {

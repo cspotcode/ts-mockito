@@ -288,6 +288,6 @@ class SampleGeneric<T> {
     }
 
     public getGenericTypedValue(): T {
-        return null;
+        return null as unknown as T;
     }
 }

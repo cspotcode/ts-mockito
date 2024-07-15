@@ -24,7 +24,7 @@ const methodTokenName = new Set([
 const isFunctionNode = (node: _babel_types.Statement | FunctionNode): node is FunctionNode => methodTokenName.has(node.type);
 
 
-function getAssignmentName(node: _babel_types.LVal) {
+function getAssignmentName(node: _babel_types.LVal): string | null {
     if (node.type === "Identifier")
         return node.name;
 
@@ -38,28 +38,30 @@ function getAssignmentName(node: _babel_types.LVal) {
     return null;
 }
 
-function handleClassProp(node: _babel_types.ClassProperty): string {
-    if (node.value.type !== 'ArrowFunctionExpression' && node.value.type !== 'FunctionExpression') return null;
+function handleClassProp(node: _babel_types.ClassProperty): string | null {
+    if (node.value?.type !== 'ArrowFunctionExpression' && node.value?.type !== 'FunctionExpression') return null;
 
     if ('name' in node.key) return node.key.name;
     if ('value' in node.key) return node.key.value.toString();
     return null;
 }
 
-function handleExpression(node: _babel_types.Expression): string {
+function handleExpression(node: _babel_types.Expression): string | null {
     if ('expression' in node && typeof node.expression !== 'boolean') return handleExpression(node.expression);
 
     if (node.type === 'AssignmentExpression') {
         return getAssignmentName(node.left);
     }
+
+    return null;
 }
 
 function handleVariable(node: _babel_types.VariableDeclaration): string[] {
     return node.declarations.filter(n => {
-        if (n.init.type === 'ArrowFunctionExpression') return true;
-        if (n.init.type === 'FunctionExpression') return true;
+        if (n.init?.type === 'ArrowFunctionExpression') return true;
+        if (n.init?.type === 'FunctionExpression') return true;
         return false;
-    }).map(n => getAssignmentName(n.id));
+    }).map(n => getAssignmentName(n.id)).filter(Boolean) as string[];
 }
 
 function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) {
@@ -79,7 +81,8 @@ function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) 
         }
 
         if (node.type === "ExpressionStatement") {
-            names = [handleExpression(node.expression), ...names];
+            const name = handleExpression(node.expression);
+            if (name) names.push(name);
         }
 
         if (node.type === "VariableDeclaration") {
@@ -87,7 +90,10 @@ function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) 
         }
 
         if (node.type === "ClassProperty") {
-            names = [handleClassProp(node), ...extractFunctionNames([node.value]), ...names];
+            const propName = handleClassProp(node);
+            const funcNames = node.value ? extractFunctionNames([node.value]) : [];
+            if (propName) names.push(propName);
+            names = [...funcNames, ...names];
         }
     });
 

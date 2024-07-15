@@ -117,7 +117,7 @@ describe("recording multiple behaviors", () => {
 
             // when
             const firstCallResult = foo.convertNumberToString(sampleValue);
-            let error: Error;
+            let error: Error | null = null;
             try {
                 foo.convertNumberToString(sampleValue);
             } catch (e) {
@@ -129,7 +129,7 @@ describe("recording multiple behaviors", () => {
 
             // then
             expect(firstCallResult).toEqual(firstMatchingStubResult);
-            expect(error.message).toEqual(firstMatchingError.message);
+            expect(error?.message).toEqual(firstMatchingError.message);
             expect(thirdCallResult).toEqual(secondMatchingStubResult);
             expect(fourthCallResult).toEqual(secondMatchingStubResult);
             expect(fifthCallResult).toEqual(secondMatchingStubResult);

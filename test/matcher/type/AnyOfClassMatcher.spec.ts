@@ -39,6 +39,7 @@ describe("AnyOfClassMatcher", () => {
     describe("checking if null matches null", () => {
         it("throws error", () => {
             try {
+                // @ts-ignore force type for test purposes
                 anyOfClass(null);
                 fail("If you reach this statement, the test failed.");
             } catch (e) {

@@ -28,11 +28,11 @@ export class Foo {
     }
 
     public sampleMethodWithOptionalArgument(a: number, b?: number): number {
-        return a + b;
+        return a + (b ?? 0);
     }
 
     public sampleMethodWithTwoOptionalArguments(a?: number, b?: number): number {
-        return a + b;
+        return (a ?? 0) +  (b ?? 0);
     }
 
     public sampleMethodReturningPromise(value: string): Promise<string> {

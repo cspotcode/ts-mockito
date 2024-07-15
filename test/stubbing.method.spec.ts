@@ -146,7 +146,7 @@ describe("mocking", () => {
                 when(mockedFoo.convertNumberToString(sampleValue)).thenThrow(sampleError);
 
                 // when
-                let error = null;
+                let error:Error | null = null;
                 try {
                     foo.convertNumberToString(sampleValue);
                 } catch (e) {
@@ -154,7 +154,7 @@ describe("mocking", () => {
                 }
 
                 // then
-                expect(error.message).toEqual("sampleError");
+                expect(error?.message).toEqual("sampleError");
             });
         });
 
