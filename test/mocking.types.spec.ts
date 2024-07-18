@@ -2,6 +2,7 @@ import { MethodToStub } from "../src/MethodToStub";
 import { instance, mock, when } from "../src/ts-mockito";
 import { Bar } from "./utils/Bar";
 import { ThenableClass } from "./utils/Thenable";
+import { EventEmitter } from "events";
 
 describe("mocking", () => {
     describe("mocking abstract class", () => {
@@ -226,6 +227,13 @@ describe("mocking", () => {
 
         });
     });
+
+    describe("mocking native class", () =>{
+        it("should mock", () => {
+            const mocked = mock(TestEmitter);
+            expect(mocked).toBeDefined();
+        });
+    });
 });
 
 abstract class SampleAbstractClass {
@@ -291,3 +299,5 @@ class SampleGeneric<T> {
         return null as unknown as T;
     }
 }
+
+class TestEmitter extends EventEmitter {}
