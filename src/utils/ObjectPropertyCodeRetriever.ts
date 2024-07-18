@@ -1,6 +1,7 @@
 
 export class ObjectPropertyCodeRetriever {
     public static getObject(object: any) {
+        if(object.constructor.name === 'Object') return '';
         const props = Object.getOwnPropertyNames(object);
         return `class ${object.constructor.name} {
             ${props.map(prop => {
@@ -17,10 +18,11 @@ export class ObjectPropertyCodeRetriever {
                     `;
             }
             if (!descriptor?.get && !descriptor?.set && typeof object[prop] === 'function') {
-                const propName = prop === 'constructor' ? 'mock_constructor' : '';
+                const propName = prop === 'constructor' ? 'mock_constructor' : prop;
                 const fnStr = String(object[prop]);
+                const addAssignment = prop === 'constructor' || fnStr.startsWith('function ');
                 result += `
-                    ${propName ? `${propName}=` : ''}${fnStr}
+                    ${addAssignment ? `${propName}=` : ''}${fnStr}
                 `;
             }
 
