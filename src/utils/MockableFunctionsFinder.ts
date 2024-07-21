@@ -56,16 +56,16 @@ function handleExpression(n?: Expression | null): string[] {
     if (!n) return [];
     switch (n.type) {
         case "ArrayExpression":
-            return n.elements.flatMap(n => isSpread(n) ? handleUnaryLike(n) : handleExpression(n));
+            return n.elements.flatMap(e => isSpread(e) ? handleUnaryLike(e) : handleExpression(e));
         case "AssignmentExpression":
             return handleAssignment(n);
         case "BinaryExpression":
             return [...(n.left.type !== 'PrivateName' ? handleExpression(n.left) : []), ...handleExpression(n.right)];
         case "CallExpression":
-            return n.arguments.flatMap(n => {
-                if (n.type === 'JSXNamespacedName') return [];
-                if (n.type === 'ArgumentPlaceholder') return [];
-                return isSpread(n) ? handleUnaryLike(n) : handleExpression(n);
+            return n.arguments.flatMap(a => {
+                if (a.type === 'JSXNamespacedName') return [];
+                if (a.type === 'ArgumentPlaceholder') return [];
+                return isSpread(a) ? handleUnaryLike(a) : handleExpression(a);
             });
         case "ConditionalExpression":
             return [...handleExpression(n.test), ...handleExpression(n.consequent), ...handleExpression(n.alternate)];
@@ -144,7 +144,7 @@ function handleBlock(n?: Block | null): string[] {
 function handleStatement(n: Statement): string[] {
     switch (n.type) {
         case "BlockStatement":
-            return n.body.flatMap(handleStatement)
+            return n.body.flatMap(handleStatement);
         case "DoWhileStatement":
             return [...handleExpression(n.test), ...handleStatement(n.body)];
         case "ExpressionStatement":
@@ -160,9 +160,9 @@ function handleStatement(n: Statement): string[] {
         case "LabeledStatement":
             return handleStatement(n.body);
         case "ReturnStatement":
-            return [...(n.argument ? handleExpression(n.argument) : [])]
+            return [...(n.argument ? handleExpression(n.argument) : [])];
         case "SwitchStatement":
-            return [...handleExpression(n.discriminant), ...n.cases.flatMap(c => [...handleExpression(c.test), ...c.consequent.flatMap(handleStatement)])]
+            return [...handleExpression(n.discriminant), ...n.cases.flatMap(c => [...handleExpression(c.test), ...c.consequent.flatMap(handleStatement)])];
         case "ThrowStatement":
             return handleExpression(n.argument);
         case "TryStatement":
@@ -215,7 +215,7 @@ function handleStatement(n: Statement): string[] {
 
 function handleLVal(n: LVal): string[] {
     if ('name' in n) return [n.name];
-    if('property'  in n) return getPropName(n.property);
+    if ('property' in n) return getPropName(n.property);
     return [];
 }
 
@@ -238,10 +238,10 @@ function handleClass(n: Class | ClassExpression): string[] {
             case "TSDeclareMethod":
                 return [];
         }
-    })
+    });
 }
 
-function handleBody(n:Program) {
+function handleBody(n: Program) {
     return n.body.flatMap(handleStatement);
 }
 

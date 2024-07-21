@@ -10,7 +10,7 @@ export class ObjectPropertyCodeRetriever {
                         return [
                             descriptor?.get ? descriptor?.get.toString() : '',
                             descriptor?.set ? descriptor?.set.toString() : '',
-                        ]
+                        ];
                     } else if (typeof object[prop] === 'function') {
                         const fnStr = String(object[prop]);
                         const isMethod = fnStr.startsWith(prop);
