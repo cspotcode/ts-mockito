@@ -1,34 +1,25 @@
-
 export class ObjectPropertyCodeRetriever {
     public static getObject(object: any) {
-        if(object.constructor.name === 'Object') return '';
+        if (object.constructor.name === 'Object') return '';
         const props = Object.getOwnPropertyNames(object);
-        return `class ${object.constructor.name} {
-            ${props.map(prop => {
-            let result = '';
-            const descriptor = Object.getOwnPropertyDescriptor(object, prop);
-            if (descriptor?.get) {
-                result += `
-                    ${descriptor?.get.toString()}
-                    `;
-            }
-            if (descriptor?.set) {
-                result += `
-                    ${descriptor?.set.toString()}
-                    `;
-            }
-            if (!descriptor?.get && !descriptor?.set && typeof object[prop] === 'function') {
-                const propName = prop === 'constructor' ? 'mock_constructor' : prop;
-                const fnStr = String(object[prop]);
-                const addAssignment = prop === 'constructor' || fnStr.startsWith('function ');
-                result += `
-                    ${addAssignment ? `${propName}=` : ''}${fnStr}
-                `;
-            }
-
-            return result;
-        }).join(`
-        `)}
+        return `
+            const ${object.constructor.name} = {
+                 ${props.flatMap(prop => {
+                    const descriptor = Object.getOwnPropertyDescriptor(object, prop);
+                    if (descriptor?.get || descriptor?.set) {
+                        return [
+                            descriptor?.get ? descriptor?.get.toString() : '',
+                            descriptor?.set ? descriptor?.set.toString() : '',
+                        ];
+                    } else if (typeof object[prop] === 'function') {
+                        const fnStr = String(object[prop]);
+                        const isMethod = fnStr.startsWith(prop);
+                        return `
+                            ${isMethod ? fnStr : `${prop}: ${fnStr}`}
+                        `;
+                    }
+                    return '';
+            }).filter(Boolean).join(',\n')}
         }
         `;
     }

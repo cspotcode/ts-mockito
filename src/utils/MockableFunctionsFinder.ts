@@ -3,15 +3,21 @@ import * as _babel_types from "@babel/types";
 import {ObjectInspector} from "./ObjectInspector";
 import {ObjectPropertyCodeRetriever} from "./ObjectPropertyCodeRetriever";
 import {uniq} from "lodash";
-
-type FunctionNode = |
-    _babel_types.ObjectMethod |
-    _babel_types.ClassMethod |
-    _babel_types.ClassPrivateMethod |
-    _babel_types.FunctionDeclaration |
-    _babel_types.ClassProperty |
-    _babel_types.Expression |
-    _babel_types.FunctionExpression;
+import {
+    AssignmentExpression,
+    Block,
+    Class,
+    ClassExpression,
+    Expression,
+    Identifier,
+    LVal,
+    NumericLiteral, ObjectExpression,
+    PrivateName, Program,
+    SpreadElement,
+    Statement,
+    StringLiteral,
+    UnaryLike,
+} from "@babel/types";
 
 const methodTokenName = new Set([
     "ObjectMethod",
@@ -21,83 +27,222 @@ const methodTokenName = new Set([
     "FunctionExpression"
 ]);
 
-const isFunctionNode = (node: _babel_types.Statement | FunctionNode): node is FunctionNode => methodTokenName.has(node.type);
+function getPropName(n: Identifier | StringLiteral | NumericLiteral | _babel_types.Expression | PrivateName): string[] {
+    if ('name' in n) return [n.name];
+    if ('value' in n) return [n.value.toString()];
+    if (n.type === 'PrivateName') return getPropName(n.id);
+    return handleExpression(n);
+}
 
+function handleAssignment(n: AssignmentExpression): string[] {
+    if (methodTokenName.has(n.right.type))
+        return [...handleLVal(n.left), ...handleExpression(n.right)];
+    return handleExpression(n.right);
+}
 
-function getAssignmentName(node: _babel_types.LVal): string | null {
-    if (node.type === "Identifier")
-        return node.name;
+function handleObject(n: ObjectExpression): string[] {
+    const names = [] as string[];
+    n.properties.forEach(p => {
+        if ('key' in p) names.push(...getPropName(p.key));
+        if ('body' in p) names.push(...p.body.body.flatMap(handleStatement));
+        if ('value' in p) names.push(...handleExpression(p.value as Expression));
+    });
+    return names;
+}
 
-    if (node.type === "MemberExpression") {
-        const prop = node.property;
-        if (prop.type === 'Identifier') return prop.name;
-        if (prop.type === 'PrivateName') return prop.id.name;
-        return null;
+const isSpread = (n: any): n is SpreadElement => n.type === 'SpreadElement';
+
+function handleExpression(n?: Expression | null): string[] {
+    if (!n) return [];
+    switch (n.type) {
+        case "ArrayExpression":
+            return n.elements.flatMap(e => isSpread(e) ? handleUnaryLike(e) : handleExpression(e));
+        case "AssignmentExpression":
+            return handleAssignment(n);
+        case "BinaryExpression":
+            return [...(n.left.type !== 'PrivateName' ? handleExpression(n.left) : []), ...handleExpression(n.right)];
+        case "CallExpression":
+            return n.arguments.flatMap(a => {
+                if (a.type === 'JSXNamespacedName') return [];
+                if (a.type === 'ArgumentPlaceholder') return [];
+                return isSpread(a) ? handleUnaryLike(a) : handleExpression(a);
+            });
+        case "ConditionalExpression":
+            return [...handleExpression(n.test), ...handleExpression(n.consequent), ...handleExpression(n.alternate)];
+        case "FunctionExpression":
+            return handleBlock(n.body);
+        case "Identifier":
+            return [n.name];
+        case "LogicalExpression":
+            return [...handleExpression(n.left), ...handleExpression(n.right)];
+        case "MemberExpression":
+            return n.property.type === 'PrivateName' ? handleExpression(n.property.id) : handleExpression(n.property);
+        case "ObjectExpression":
+            return handleObject(n);
+        case "SequenceExpression":
+            return n.expressions.flatMap(handleExpression);
+        case "ParenthesizedExpression":
+            return handleExpression(n.expression);
+        case "UnaryExpression":
+        case "UpdateExpression":
+        case "YieldExpression":
+        case "AwaitExpression":
+            return handleExpression(n.argument);
+        case "ArrowFunctionExpression":
+            return n.body.type === 'BlockStatement' ? handleBlock(n.body) : handleExpression(n.body);
+        case "ClassExpression":
+            return handleClass(n);
+        case "TaggedTemplateExpression":
+            return handleExpression(n.tag);
+        case "TemplateLiteral":
+            return n.expressions.flatMap(e => handleExpression(e as Expression));
+        case "OptionalMemberExpression":
+            return [...(n.property.type !== 'Identifier' ? handleExpression(n.property) : [])];
+        case "OptionalCallExpression":
+            return n.arguments.flatMap(a => {
+                if (a.type === 'SpreadElement') return handleExpression(a.argument);
+                if (a.type === 'JSXNamespacedName') return [];
+                if (a.type === 'ArgumentPlaceholder') return [];
+                return handleExpression(a);
+            });
+        case "BindExpression":
+            return handleExpression(n.object);
+        case "DoExpression":
+            return handleBlock(n.body);
+        case "RecordExpression":
+        case "NewExpression":
+        case "StringLiteral":
+        case "NumericLiteral":
+        case "BooleanLiteral":
+        case "RegExpLiteral":
+        case "NullLiteral":
+        case "ThisExpression":
+        case "MetaProperty":
+        case "Super":
+        case "Import":
+        case "BigIntLiteral":
+        case "TypeCastExpression":
+        case "JSXElement":
+        case "JSXFragment":
+        case "PipelinePrimaryTopicReference":
+        case "TupleExpression":
+        case "DecimalLiteral":
+        case "ModuleExpression":
+        case "TSAsExpression":
+        case "TSTypeAssertion":
+        case "TSNonNullExpression":
+        default:
+            return [];
+    }
+}
+
+function handleBlock(n?: Block | null): string[] {
+    if (!n) return [];
+    return n.body.flatMap(handleStatement);
+}
+
+function handleStatement(n: Statement): string[] {
+    switch (n.type) {
+        case "BlockStatement":
+            return n.body.flatMap(handleStatement);
+        case "DoWhileStatement":
+            return [...handleExpression(n.test), ...handleStatement(n.body)];
+        case "ExpressionStatement":
+            return handleExpression(n.expression);
+        case "ForInStatement":
+            return [...handleExpression(n.right), ...handleStatement(n.body)];
+        case "ForStatement":
+            return [...(n.test ? handleExpression(n.test) : []), ...(n.update ? handleExpression(n.update) : []), ...handleStatement(n.body)];
+        case "FunctionDeclaration":
+            return [...(n.id ? [n.id.name] : []), ...handleBlock(n.body)];
+        case "IfStatement":
+            return [...handleExpression(n.test), ...handleStatement(n.consequent), ...(n.alternate ? handleStatement(n.alternate) : [])];
+        case "LabeledStatement":
+            return handleStatement(n.body);
+        case "ReturnStatement":
+            return [...(n.argument ? handleExpression(n.argument) : [])];
+        case "SwitchStatement":
+            return [...handleExpression(n.discriminant), ...n.cases.flatMap(c => [...handleExpression(c.test), ...c.consequent.flatMap(handleStatement)])];
+        case "ThrowStatement":
+            return handleExpression(n.argument);
+        case "TryStatement":
+            return [...handleBlock(n.block), ...handleBlock(n.handler?.body), ...handleBlock(n.finalizer)];
+        case "WhileStatement":
+            return [...handleExpression(n.test), ...handleStatement(n.body)];
+        case "WithStatement":
+            return [...handleExpression(n.object), ...handleStatement(n.body)];
+        case "ClassDeclaration":
+            return handleClass(n);
+        case "ForOfStatement":
+            return [...handleExpression(n.right), ...handleStatement(n.body)];
+        case "VariableDeclaration":
+            return n.declarations.flatMap(d => handleExpression(d.init));
+        case "DebuggerStatement":
+        case "BreakStatement":
+        case "ContinueStatement":
+        case "EmptyStatement":
+        case "ExportAllDeclaration":
+        case "ExportDefaultDeclaration":
+        case "ExportNamedDeclaration":
+        case "ImportDeclaration":
+        case "DeclareClass":
+        case "DeclareFunction":
+        case "DeclareInterface":
+        case "DeclareModule":
+        case "DeclareModuleExports":
+        case "DeclareTypeAlias":
+        case "DeclareOpaqueType":
+        case "DeclareVariable":
+        case "DeclareExportDeclaration":
+        case "DeclareExportAllDeclaration":
+        case "InterfaceDeclaration":
+        case "OpaqueType":
+        case "TypeAlias":
+        case "EnumDeclaration":
+        case "TSDeclareFunction":
+        case "TSInterfaceDeclaration":
+        case "TSTypeAliasDeclaration":
+        case "TSEnumDeclaration":
+        case "TSModuleDeclaration":
+        case "TSImportEqualsDeclaration":
+        case "TSExportAssignment":
+        case "TSNamespaceExportDeclaration":
+        default:
+            return [];
     }
 
-    return null;
 }
 
-function handleClassProp(node: _babel_types.ClassProperty): string | null {
-    if (node.value?.type !== 'ArrowFunctionExpression' && node.value?.type !== 'FunctionExpression') return null;
-
-    if ('name' in node.key) return node.key.name;
-    if ('value' in node.key) return node.key.value.toString();
-    return null;
+function handleLVal(n: LVal): string[] {
+    if ('name' in n) return [n.name];
+    if ('property' in n) return getPropName(n.property);
+    return [];
 }
 
-function handleExpression(node: _babel_types.Expression): string | null {
-    if ('expression' in node && typeof node.expression !== 'boolean') return handleExpression(node.expression);
-
-    if (node.type === 'AssignmentExpression') {
-        return getAssignmentName(node.left);
-    }
-
-    return null;
+function handleUnaryLike(n: UnaryLike): string[] {
+    return handleExpression(n.argument);
 }
 
-function handleVariable(node: _babel_types.VariableDeclaration): string[] {
-    return node.declarations.filter(n => {
-        if (n.init?.type === 'ArrowFunctionExpression') return true;
-        if (n.init?.type === 'FunctionExpression') return true;
-        return false;
-    }).map(n => getAssignmentName(n.id)).filter(Boolean) as string[];
-}
-
-function extractFunctionNames(nodes: (_babel_types.Statement | FunctionNode)[]) {
-    let names = [] as string[];
-    nodes.forEach(node => {
-        if (isFunctionNode(node)) {
-            if ('key' in node) {
-                if ('name' in node.key)
-                    names.push(node.key.name);
-                if ('value' in node.key)
-                    names.push(node.key.value.toString());
-            }
-            if ('id' in node && node.id) names.push(node.id.name);
-        }
-        if ('body' in node) {
-            names = [...extractFunctionNames(Array.isArray(node.body) ? node.body as _babel_types.Statement[] : [node.body as _babel_types.Statement]), ...names];
-        }
-
-        if (node.type === "ExpressionStatement") {
-            const name = handleExpression(node.expression);
-            if (name) names.push(name);
-        }
-
-        if (node.type === "VariableDeclaration") {
-            names = [...handleVariable(node), ...names];
-        }
-
-        if (node.type === "ClassProperty") {
-            const propName = handleClassProp(node);
-            const funcNames = node.value ? extractFunctionNames([node.value]) : [];
-            if (propName) names.push(propName);
-            names = [...funcNames, ...names];
+function handleClass(n: Class | ClassExpression): string[] {
+    return n.body.body.flatMap(b => {
+        switch (b.type) {
+            case "ClassMethod":
+                return [...getPropName(b.key), ...handleStatement(b.body)];
+            case "ClassPrivateMethod":
+                return [...getPropName(b.key), ...handleStatement(b.body)];
+            case "ClassProperty":
+                return [...getPropName(b.key), ...handleExpression(b.value)];
+            case "ClassPrivateProperty":
+                return [...getPropName(b.key), ...handleExpression(b.value)];
+            case "TSIndexSignature":
+            case "TSDeclareMethod":
+                return [];
         }
     });
+}
 
-    return names;
+function handleBody(n: Program) {
+    return n.body.flatMap(handleStatement);
 }
 
 /**
@@ -115,7 +260,8 @@ export class MockableFunctionsFinder {
 
     public find(clazz: any): string[] {
         const codes = this.getClassCodeAsStringWithInheritance(clazz);
-        const names = codes.map(code => parse(code)).flatMap(ast => extractFunctionNames(ast.program.body));
+        const asts = codes.map(code => parse(code));
+        const names = asts.flatMap(ast => handleBody(ast.program));
         return uniq(names)
             .filter((functionName: string) => this.isMockable(functionName));
     }
