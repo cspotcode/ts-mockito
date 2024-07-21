@@ -234,6 +234,13 @@ describe("mocking", () => {
             expect(mocked).toBeDefined();
         });
     });
+
+    describe("mocking anon class", () =>{
+        it("should mock", () => {
+            const mocked = mock(TestAnonClass);
+            expect(mocked).toBeDefined();
+        });
+    });
 });
 
 abstract class SampleAbstractClass {
@@ -301,3 +308,7 @@ class SampleGeneric<T> {
 }
 
 class TestEmitter extends EventEmitter {}
+
+const TestAnonClass = class {
+    private readonly foo = 'abc';
+};
