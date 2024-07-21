@@ -1,6 +1,6 @@
 {
   "name": "@typestrong/ts-mockito",
-  "version": "2.7.2",
+  "version": "2.7.3",
   "description": "Mocking library for TypeScript",
   "main": "lib/ts-mockito.js",
   "typings": "lib/ts-mockito",
