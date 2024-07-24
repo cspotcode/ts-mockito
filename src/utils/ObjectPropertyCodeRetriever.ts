@@ -13,7 +13,8 @@ export class ObjectPropertyCodeRetriever {
                         ];
                     } else if (typeof object[prop] === 'function') {
                         const fnStr = String(object[prop]);
-                        const isMethod = fnStr.startsWith(prop) || fnStr.startsWith(`async ${prop}`);
+                        const gx = new RegExp(`^(async)?\\s{0,}\\*?${prop}`);
+                        const isMethod = gx.test(fnStr);
                         return `
                             ${isMethod ? fnStr : `${prop}: ${fnStr}`}
                         `;
