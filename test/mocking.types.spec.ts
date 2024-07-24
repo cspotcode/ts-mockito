@@ -248,6 +248,13 @@ describe("mocking", () => {
             expect(mocked).toBeDefined();
         });
     });
+
+    describe("mocking generator class", () => {
+        it("should mock", () => {
+            const mocked = mock(getGeneratorClass());
+            expect(mocked).toBeDefined();
+        });
+    });
 });
 
 abstract class SampleAbstractClass {
@@ -332,3 +339,26 @@ export class AsyncClass {
         return 0;
     }
 }
+
+// tslint:disable-next-line:no-eval
+const getGeneratorClass = () => eval(`class GeneratorClass {
+
+    asyncValueFn = async function* hello() {
+        return 'value';
+    };
+
+    valueFn = function* hello() {
+        return 'value';
+    };
+
+    async *returnAsyncValue() {
+        return 0;
+    }
+
+    *returnValue() {
+        return 0;
+    }
+}
+
+GeneratorClass
+`);
