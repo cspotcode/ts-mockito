@@ -340,6 +340,7 @@ export class AsyncClass {
     }
 }
 
+// Generator functions in eval to prevent downcompiling generators to classic functions
 // tslint:disable-next-line:no-eval
 const getGeneratorClass = () => eval(`class GeneratorClass {
 
