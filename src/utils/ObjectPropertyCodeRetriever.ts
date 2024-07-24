@@ -13,7 +13,7 @@ export class ObjectPropertyCodeRetriever {
                         ];
                     } else if (typeof object[prop] === 'function') {
                         const fnStr = String(object[prop]);
-                        const isMethod = fnStr.startsWith(prop);
+                        const isMethod = fnStr.startsWith(prop) || fnStr.startsWith(`async ${prop}`);
                         return `
                             ${isMethod ? fnStr : `${prop}: ${fnStr}`}
                         `;
