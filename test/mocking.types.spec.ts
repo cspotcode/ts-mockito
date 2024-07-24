@@ -1,8 +1,8 @@
-import { MethodToStub } from "../src/MethodToStub";
-import { instance, mock, when } from "../src/ts-mockito";
-import { Bar } from "./utils/Bar";
-import { ThenableClass } from "./utils/Thenable";
-import { EventEmitter } from "events";
+import {MethodToStub} from "../src/MethodToStub";
+import {instance, mock, when} from "../src/ts-mockito";
+import {Bar} from "./utils/Bar";
+import {ThenableClass} from "./utils/Thenable";
+import {EventEmitter} from "events";
 
 describe("mocking", () => {
     describe("mocking abstract class", () => {
@@ -228,16 +228,23 @@ describe("mocking", () => {
         });
     });
 
-    describe("mocking native class", () =>{
+    describe("mocking native class", () => {
         it("should mock", () => {
             const mocked = mock(TestEmitter);
             expect(mocked).toBeDefined();
         });
     });
 
-    describe("mocking anon class", () =>{
+    describe("mocking anon class", () => {
         it("should mock", () => {
             const mocked = mock(TestAnonClass);
+            expect(mocked).toBeDefined();
+        });
+    });
+
+    describe("mocking async class", () => {
+        it("should mock", () => {
+            const mocked = mock(AsyncClass);
             expect(mocked).toBeDefined();
         });
     });
@@ -307,8 +314,21 @@ class SampleGeneric<T> {
     }
 }
 
-class TestEmitter extends EventEmitter {}
+class TestEmitter extends EventEmitter {
+}
 
 const TestAnonClass = class {
     private readonly foo = 'abc';
 };
+
+export class AsyncClass {
+    public asyncValueArrowFn = async () => 'value';
+
+    public asyncValueFn = async function hello() {
+        return 'value';
+    };
+
+    public async returnAsyncValue(): Promise<number> {
+        return 0;
+    }
+}
