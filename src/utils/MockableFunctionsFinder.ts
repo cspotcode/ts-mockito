@@ -272,7 +272,12 @@ export class MockableFunctionsFinder {
     }
 
     private getClassCodeAsStringWithInheritance(clazz: any) {
+        return [`const clazz = ${this.getClassAsString(clazz)}`, ...ObjectInspector.getObjectPrototypes(clazz.prototype).map(ObjectPropertyCodeRetriever.getObject)];
+    }
+
+    private getClassAsString(clazz: any) {
         const classCode: string = typeof clazz.toString !== "undefined" ? clazz.toString() : "{}";
-        return [`const clazz = ${classCode}`, ...ObjectInspector.getObjectPrototypes(clazz.prototype).map(ObjectPropertyCodeRetriever.getObject)];
+        if(classCode === '[object Object]') return '{}';
+        return classCode;
     }
 }
