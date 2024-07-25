@@ -255,6 +255,13 @@ describe("mocking", () => {
             expect(mocked).toBeDefined();
         });
     });
+
+    describe("mock empty object", () => {
+        it("should mock", () => {
+            const mocked = mock({});
+            expect(mocked).toBeDefined();
+        });
+    });
 });
 
 abstract class SampleAbstractClass {
