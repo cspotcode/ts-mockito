@@ -50,13 +50,13 @@ function handleObject(n: ObjectExpression): string[] {
     return names;
 }
 
-const isSpread = (n: any): n is SpreadElement => n.type === 'SpreadElement';
+const isSpread = (n: { type:string }): n is SpreadElement => n.type === 'SpreadElement';
 
 function handleExpression(n?: Expression | null): string[] {
     if (!n) return [];
     switch (n.type) {
         case "ArrayExpression":
-            return n.elements.flatMap(e => isSpread(e) ? handleUnaryLike(e) : handleExpression(e));
+            return n.elements.flatMap(e => e ? (isSpread(e) ? handleUnaryLike(e) : handleExpression(e)) : []);
         case "AssignmentExpression":
             return handleAssignment(n);
         case "BinaryExpression":
