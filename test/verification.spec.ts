@@ -818,6 +818,25 @@ cases.forEach(testData => {
                 }
             });
         });
+
+        describe("decorator + Proxy", () => {
+            function decorator<T extends object>(target: unknown, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
+                const originalMethod = descriptor.value;
+                if (originalMethod !== undefined) {
+                    descriptor.value = new Proxy(originalMethod, {})
+                }
+            }
+
+            class TestClass {
+                @decorator
+                foo() {}
+            }
+
+            it("should mock", () => {
+                const mocked = mock(TestClass);
+                expect(mocked).toBeDefined();
+            });
+        });
     });
 });
 

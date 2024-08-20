@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "experimentalDecorators": true,
     "outDir": "./lib",
     "module": "commonjs",
     "moduleResolution": "node",
