@@ -823,7 +823,7 @@ cases.forEach(testData => {
             function decorator<T extends object>(target: unknown, propertyKey: string | symbol, descriptor: TypedPropertyDescriptor<T>) {
                 const originalMethod = descriptor.value;
                 if (originalMethod !== undefined) {
-                    descriptor.value = new Proxy(originalMethod, {})
+                    descriptor.value = new Proxy(originalMethod, {});
                 }
             }
 
