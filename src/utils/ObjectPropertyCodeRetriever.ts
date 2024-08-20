@@ -12,7 +12,8 @@ export class ObjectPropertyCodeRetriever {
                             descriptor?.set ? descriptor?.set.toString() : '',
                         ];
                     } else if (typeof object[prop] === 'function') {
-                        const fnStr = String(object[prop]);
+                        let fnStr = String(object[prop]);
+                        fnStr = fnStr.replace(/\[native code]/, '');
                         const gx = new RegExp(`^(async)?\\s{0,}\\*?${prop}`);
                         const isMethod = gx.test(fnStr);
                         return `
