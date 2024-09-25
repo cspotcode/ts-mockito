@@ -38,6 +38,17 @@ export function mock<T>(clazz?: any): T {
     return new Mocker(clazz).getMock();
 }
 
+export function fnmock<R, T extends any[]>(): (...args: T) => R {
+    class Mock {
+        public fn(...args: T): R { return null as R; }
+    }
+
+    const m: Mock = mock(Mock);
+    (m.fn as any).__tsmockitoInstance = instance(m).fn;
+    (m.fn as any).__tsmockitoMocker = (m as any).__tsmockitoMocker;
+    return m.fn;
+}
+
 export function verify<T>(method: T): MethodStubVerificator<T> {
     return new MethodStubVerificator(method as any);
 }
@@ -129,6 +140,7 @@ export function objectContaining<T extends Object>(expectedValue: T): any {
 export default {
     spy,
     mock,
+    fnmock,
     verify,
     when,
     instance,
