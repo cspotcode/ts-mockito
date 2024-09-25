@@ -837,6 +837,30 @@ cases.forEach(testData => {
                 expect(mocked).toBeDefined();
             });
         });
+
+        describe("method names with special chars", () => {
+            class TestClass {
+                "special_chars-@?" = () => {
+                    // do nothing
+                }
+            }
+
+            const TestObject = {
+                "special_chars-@?": () => {
+                    // do nothing
+                }
+            }
+
+            it("should mock class", () => {
+                const mocked = mock(TestClass);
+                expect(mocked).toBeDefined();
+            });
+
+            it("should mock object", () => {
+                const mocked = mock(TestObject);
+                expect(mocked).toBeDefined();
+            });
+        });
     });
 });
 
