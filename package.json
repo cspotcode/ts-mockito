@@ -22,8 +22,8 @@
     "mv:lib": "mv lib dist/ts-mockito/",
     "cp:pkjson": "cp -rf package.json dist/ts-mockito/",
     "cp:all": "npm run cp:readme && npm run cp:license && npm run cp:pkjson",
-    "build": "npm run bump && npm run compile && npm run mkdir:dist && npm run cp:all && npm run mv:lib",
-    "build:ci": "npm run compile && npm run mkdir:dist && npm run cp:all && npm run mv:lib",
+    "build": "npm run compile && npm run mkdir:dist && npm run cp:all && npm run mv:lib",
+    "build:ci": "npm run bump && npm run compile && npm run mkdir:dist && npm run cp:all && npm run mv:lib",
     "bump": "npm version patch --force"
   },
   "author": "kuster.maciej@gmail.com",

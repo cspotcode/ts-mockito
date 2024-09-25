@@ -15,6 +15,11 @@ jobs:
       - run: npm ci
       - run: npm run build:ci
 
+      - uses: EndBug/add-and-commit@v9
+        with:
+          fetch: false
+          message: 'Update version'
+
       - id: publish
         uses: JS-DevTools/npm-publish@v1
         with:
