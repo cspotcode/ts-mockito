@@ -17,7 +17,7 @@ export class ObjectPropertyCodeRetriever {
                         const gx = new RegExp(`^(async)?\\s{0,}\\*?${prop}`);
                         const isMethod = gx.test(fnStr);
                         return `
-                            ${isMethod ? fnStr : `${prop}: ${fnStr}`}
+                            ${isMethod ? fnStr : `"${prop}": ${fnStr}`}
                         `;
                     }
                     return '';
