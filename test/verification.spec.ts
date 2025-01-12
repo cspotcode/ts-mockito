@@ -817,6 +817,23 @@ cases.forEach(testData => {
                     expect(e.message).toContain(`sampleMethodWithObjectArguments({\"foo\":\"baz\"})`);
                 }
             });
+
+            it("should describe error with the supplied error message", () => {
+                instance(mockedFoo).sampleMethodWithObjectArguments({foo: 'baz'});
+
+                try {
+                    // when
+                    verify(
+                        mockedFoo.sampleMethodWithObjectArguments(deepEqual({foo: 'bar'})),
+                        'sampleMethodWithObjectArguments should return baz!',
+                    ).once();
+
+                    expect(true).toBe(false); // Above call should throw an exception
+                } catch (e) {
+                    // then
+                    expect(e.message).toContain('sampleMethodWithObjectArguments should return baz!');
+                }
+            });
         });
 
         describe("decorator + Proxy", () => {

@@ -52,6 +52,13 @@ verify(mockedFoo.getBar(3)).called();
 verify(mockedFoo.getBar(anything())).called();
 ```
 
+#### Throwing custom test error message
+The verify assertion will throw a test error with predefined error template.
+If you need to throw a different error message in the test you can supply the ```verify``` command with an optional error message parameter:
+``` typescript
+verify(mockedFoo.getBar(), 'getBar should have been called, but didnt!').called();
+```
+
 ### Stubbing method calls
 
 ``` typescript
